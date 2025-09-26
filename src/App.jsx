@@ -18,6 +18,8 @@ export const goods = [
 
 export const App = () => {
   const [selectedGood, setSelectedGood] = useState('Jam');
+  const handleClear = () => setSelectedGood('');
+  const handleSelect = product => setSelectedGood(product);
 
   return (
     <main className="section container">
@@ -28,7 +30,7 @@ export const App = () => {
             data-cy="ClearButton"
             type="button"
             className="delete ml-3"
-            onClick={() => setSelectedGood('')}
+            onClick={handleClear}
           />
         </h1>
       ) : (
@@ -48,18 +50,27 @@ export const App = () => {
               })}
             >
               <td>
-                <button
-                  data-cy={selectedGood === good ? 'RemoveButton' : 'AddButton'}
-                  type="button"
-                  className={classNames('button', {
-                    'is-info': selectedGood === good,
-                  })}
-                  onClick={() =>
-                    setSelectedGood(selectedGood === good ? '' : good)
-                  }
-                >
-                  {selectedGood === good ? '-' : '+'}
-                </button>
+                {selectedGood === '' && (
+                  <button
+                    data-cy="AddButton"
+                    type="button"
+                    className="button"
+                    onClick={() => handleSelect(good)}
+                  >
+                    +
+                  </button>
+                )}
+
+                {selectedGood === good && (
+                  <button
+                    data-cy="RemoveButton"
+                    type="button"
+                    className="button is-info"
+                    onClick={handleClear}
+                  >
+                    -
+                  </button>
+                )}
               </td>
 
               <td data-cy="GoodTitle" className="is-vcentered">
